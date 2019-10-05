@@ -1,35 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    window.onload = function(){
-      //소켓을 연결합니다.
-      //var URL_SERVER = 'https://localhost:443'
-      var socket = io.connect();
-      var room = prompt('방이름을 입력하세요');
-
-      //소켓이벤트를 연결합니다.
-      socket.emit('join',room);
-      socket.on('serverMsg', function(data){
-        $('<p>' + data + '</p>').appendTo('body');
-      });
-      //문서객체에 이벤트를 연결합니다.
-      document.getElementById('button').onclick = function(){
-        let message = document.getElementById('textBox').value;
-        socket.emit('clientMsg', message);
-      };
-    };
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    $(document).ready(function(){
+      var socket = io.connect();  // 소켓서버를 추출합니다.
+
+      socket.on('serverMsg',(data)=>{
+        // 전송받은 데이터를 출력합니다.
+        let msgBody = '';
+        msgBody += '<li>';
+        msgBody += '<h3>' + data.name + '</h3>';
+        msgBody += '<p>' + data.message + '</p>';
+        msgBody += '<p>' + data.date + '</p>';
+        msgBody += '</li>';
+
+        $(msgBody).appendTo('#content');  //id=content 인 문서뒤에 메시지바디를 추가합니다.
+        $('#content').listview('refresh'); // 리스트뷰를 리프래쉬합니다.
+      });
+
+      $('button').click(function () {
+        socket.emit('clientMsg',{
+          name: $('#name').val(),
+          message: $('#message').val(),
+          date: new Date().toUTCString()
+        });
+      });
+    });
+  </script>
+  <title>Mobile Chat</title>
 </head>
 <body>
-  <h1>html page for socket.io learning</h1>
-  <input type="text" id="textBox" value="" />
-  <input type="button" id="button" value="echo" />
+  <div data-role="page">
+    <div data-role="header">
+      <h1>Socket.io Chatting Program</h1>
+    </div>
+    <div data-role="content">
+      <h3>Nick Name</h3>
+      <input id="name"/>
+      <a data-role="button" href="#chatpage">Start</a>
+    </div>
+  </div>
+  <div data-role="page" id="chatpage">
+    <div data-role="header">
+      <h1>Socket.io Chatting Program</h1>
+    </div>
+    <div data-role="content">
+      <ul id="content" data-role="listview" data-inset="true">
+
+      </ul>
+    </div>
+    <div data-role="footer">
+      <input id="message"/>
+      <button>Button</button>
+    </div>
+  </div>
 </body>
 </html>
