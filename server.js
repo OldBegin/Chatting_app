@@ -22,7 +22,7 @@ const io = socketio();                             // 웹소켓 생성
 const server = http.createServer(app);
 const serverSSL = https.createServer(app,options);
 
-io.attach(server);                                 // 웹서버와 소켓서버 연결
+io.attach(serverSSL);                      // 웹서버와 소켓서버 연결
 
 // 라우팅
 app.get('/', (req,res)=>{
@@ -61,7 +61,7 @@ io.sockets.on('connection',(socket)=>{
 });
  
 // 서버실행
-server.listen(3000, function () {
+server.listen(80, function () {
     console.log('Server is running at http://localhost:3000');
 });
 serverSSL.listen(443, function () {
