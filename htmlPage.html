@@ -33,7 +33,7 @@
         $('#message').val('');
       });
 
-      $('#message').keydown(function (event) {
+      $('#message').bind("change keyup input" function (event) {
         if(event.which == $.FE.KEYCODE.ENTER){
           $('button').click();
           return false;
