@@ -4,23 +4,24 @@ const fs = require('fs');
 const socketio = require('socket.io');
 const express = require('express');
 
+const app = express();
 // 서버용 인증서 옵션 ///
 const options = {
   key: fs.readFileSync('/etc/letsencrypt/live/www.unitedin.kr/privkey.pem'),
   cert: fs.readFileSync('/etc/letsencrypt/live/www.unitedin.kr/cert.pem')
 };
 
-// ///////// 로컬 인증서 옵션 //////////
+///////// 로컬 인증서 옵션 //////////
 // const options = {
 //   key: fs.readFileSync(__dirname + '/openSSLcert/key.pem'),
 //   cert: fs.readFileSync(__dirname + '/openSSLcert/key-cert.pem')
 // };
 
 // 웹서버와 소켓을 생성합니다.
-const app = express();                             // 웹서버 생성
-const io = socketio();                             // 웹소켓 생성
+                      // 웹서버 생성
+const io = socketio();                        // 웹소켓 생성
 const server = http.createServer(app);
-const serverSSL = https.createServer(app,options);
+const serverSSL = https.createServer(options,app);
 
 io.attach(serverSSL);                      // 웹서버와 소켓서버 연결
 
