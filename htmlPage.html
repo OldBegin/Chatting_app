@@ -33,7 +33,7 @@
         $('#message').val('');
       });
 
-      $('#message').keypress(function (event) {
+      $('#message').keydown(function (event) {
         if(event.which == $.FE.KEYCODE.ENTER){
           $('button').click();
           return false;
