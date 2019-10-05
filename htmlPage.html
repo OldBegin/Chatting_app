@@ -34,7 +34,7 @@
       });
 
       $('#message').keypress(function (event) {
-        if(event.which == 13){
+        if(event.which == $.FE.KEYCODE.ENTER){
           $('button').click();
           return false;
         }
