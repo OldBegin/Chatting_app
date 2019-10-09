@@ -60,7 +60,7 @@ io.sockets.on('connection',(socket)=>{
  
 // 서버실행
 server.listen(3000, function () {
-    console.log('Server is running at http://localhost:3000');
+    console.log('Server is running at http://localhost:80');
 });
 serverSSL.listen(443, function () {
     console.log('https Server is running at https://localhost:443');
