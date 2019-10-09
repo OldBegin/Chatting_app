@@ -29,8 +29,12 @@
         msgBody += '</li>';
 
         $(msgBody).appendTo('#content');  //id=content 인 문서뒤에 메시지바디를 추가합니다.
-        //$('#content').listview('refresh'); // 리스트뷰를 리프래쉬합니다.
-        fnMove('#chatList');
+        $('#content').listview('refresh'); // 리스트뷰를 리프래쉬합니다.
+
+        if(data.name != $('#name').val()){  // 자신이 보낸 메시지가 아닐때만 스크롤함수를 부릅니다.
+          fnMove('#chatList');
+          console.log("보낸사람은:" + $('#name').val());
+        }
       });
 
       $('button').click(function () {
