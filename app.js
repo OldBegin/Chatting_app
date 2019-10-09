@@ -59,9 +59,9 @@ io.sockets.on('connection',(socket)=>{
 });
  
 // 서버실행
-server.listen(80, function () {
-    console.log('Server is running at http://localhost:80');
-});
+// server.listen(80, function () {
+//     console.log('Server is running at http://localhost:80');
+// });
 serverSSL.listen(443, function () {
     console.log('https Server is running at https://localhost:443');
 });
