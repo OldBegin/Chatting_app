@@ -7,7 +7,15 @@
   <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
+  <style>
+    #chatlist { float: bottom; }
+  </style>
   <script>
+    function fnMove(seq){
+        var offset = $(seq).offset();
+        $('html, body').animate({scrollTop : offset.top}, 400);
+    }
+
     $(document).ready(function(){
       var socket = io.connect();  // 소켓서버를 추출합니다.
 
@@ -22,6 +30,7 @@
 
         $(msgBody).appendTo('#content');  //id=content 인 문서뒤에 메시지바디를 추가합니다.
         $('#content').listview('refresh'); // 리스트뷰를 리프래쉬합니다.
+        fnMove('#message');
       });
 
       $('button').click(function () {
@@ -58,14 +67,14 @@
     <div data-role="header" data-position="fixed">
       <h1>Socket.io Chatting Program</h1>
     </div>
-    <div data-role="content">
+    <div data-role="content" id="chatlist">
       <ul id="content" data-role="listview" data-inset="true">
 
       </ul>
     </div>
-    <div data-role="footer" data-position="fixed">
+    <div data-role="footer" data-position="fixed" id="footer">
       <input id="message"/>
-      <button>Button</button>
+      <button id="btnChat" onclick="fnMove('#message')">Button</button>
     </div>
   </div>
 </body>

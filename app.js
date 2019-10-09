@@ -5,16 +5,16 @@ const socketio = require('socket.io');
 const express = require('express');
 
 //// 서버용 인증서 ///
-const options = {
-  key: fs.readFileSync('/etc/letsencrypt/live/www.unitedin.kr/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/www.unitedin.kr/cert.pem')
-};
-
-/////// 테스트용 로컬 인증서 //////////
 // const options = {
-//   key: fs.readFileSync(__dirname + '/openSSLcert/file.pem'),
-//   cert: fs.readFileSync(__dirname + '/openSSLcert/file.crt')
+//   key: fs.readFileSync('/etc/letsencrypt/live/www.unitedin.kr/privkey.pem'),
+//   cert: fs.readFileSync('/etc/letsencrypt/live/www.unitedin.kr/cert.pem')
 // };
+
+///// 테스트용 로컬 인증서 //////////
+const options = {
+  key: fs.readFileSync(__dirname + '/openSSLcert/file.pem'),
+  cert: fs.readFileSync(__dirname + '/openSSLcert/file.crt')
+};
 
 // 웹서버와 소켓을 생성합니다.
 const app = express();                        // 웹서버 생성
