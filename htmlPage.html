@@ -19,31 +19,66 @@
     $(document).ready(function(){
       var socket = io.connect();  // 소켓서버를 추출합니다.
 
+//////// 다른 유저의 메시지를 받아서 채팅뷰에 올린다. /////////////
       socket.on('serverMsg',(data)=>{
-        // 전송받은 데이터를 출력합니다.
-        let msgBody = '';
-        msgBody += '<li>';
-        msgBody += '<h3>' + data.name + '</h3>';
-        msgBody += '<h2>' + data.message + '</h2>';
-        msgBody += '<p>' + data.date + '</p>';
-        msgBody += '</li>';
 
-        $(msgBody).appendTo('#content');  //id=content 인 문서뒤에 메시지바디를 추가합니다.
-        $('#content').listview('refresh'); // 리스트뷰를 리프래쉬합니다.
+        // 전송받은 데이터를 출력합니다.
+        var msgDiv = $('<div class="msgDiv">');
+        var msgBox = $('<div class="msgBox">');
+
+        var msgOthersSend = "";
+        msgOthersSend += '<h3>' + data.name + '</h3>';
+        msgOthersSend += '<h2>' + data.message + '</h2>';
+        msgOthersSend += '<p>' + data.date + '</p>';
+
+        msgBox.append(msgOthersSend);
+        msgDiv.append(msgBox); //msgDiv 로 msgBox를 감싼다.
+
+        msgBox.css('display','inline-block');
+
+        $('#chatView').append(msgDiv);  //id=content 인 문서안에 메시지바디를 추가합니다.
+        $('#chatView').append(msgDiv);
+        //$('#content').listview('refresh'); // 리스트뷰를 리프래쉬합니다.
+        fnMove('#footer');
+        msgDiv = "";
+        msgBox = "";
+        msgOthersSend = "";
+
+      });
+/////////// 클라이언트가 메시지를 발송할때 ////////////////
+      $('button').click(function () {
+        var msg = {    name: $('#name').val(),
+                       message: $('#msgInput').val(),
+                          date: new Date().toUTCString()
+                     }
+
+        socket.emit('clientMsg',msg);    //내 매시지(클라이언트)를 전송한다.
+        console.log('msg: ',msg);
+       //// 브로드캐스팅이므로 여기서부터는 내 메시지를 내 채팅뷰에 스스로 표시한다. ////
+        var myMsgDiv = $('<div class="msgDiv">');
+        var myMsgBox = $('<div class="myMsgBox">');
+
+        var myMsg ="";
+        myMsg += '<h3>' + msg.name + '</h3>';
+        myMsg += '<h2>' + msg.message + '</h2>';
+        myMsg += '<p>' + msg.date + '</p>';
+
+        myMsgBox.append(myMsg);      //메시지 상자에 내 메시지를 넣는다
+        myMsgDiv.append(myMsgBox);     //msgDiv 으로 내 상자를 힌반더 감싼다.(메시지상자와 상자간 구분하연 거리를 띄우기 위함)
+
+        myMsgBox.css('display', 'inline-block');
+        myMsgDiv.css('text-align', 'right');
+
+        $('#chatView').append(myMsgDiv);
         fnMove('#footer');
 
+        $('#msgInput').val(""); //메시지 전송 및 표시후 다음 메시지 입력을 위해 비운다.
+        msg = "";
+        myMsgBox = "";
+        myMsgDiv = "";
       });
 
-      $('button').click(function () {
-        socket.emit('clientMsg',{
-          name: $('#name').val(),
-          message: $('#message').val(),
-          date: new Date().toUTCString()
-        });
-        $('#message').val('');
-      });
-
-      $('#message').keydown(function (event) {
+      $('#msgInput').keydown(function (event) {
         if(event.which == 13){
           $('button').click();
           return false;
@@ -69,14 +104,12 @@
     <div data-role="header" data-position="fixed">
       <h1>Socket.io Chatting Program</h1>
     </div>
-    <div data-role="content" id="chatlist">
-      <ul id="content" data-role="listview" data-inset="true">
+    <div data-role="content" id="chatView">
 
-      </ul>
     </div>
     <div data-role="footer" data-position="fixed" id="footer">
-      <input id="message"/>
-      <button id="btnChat">Button</button>
+      <input id="msgInput"/>
+      <button id="btnChat">입력</button>
     </div>
   </div>
 </body>
