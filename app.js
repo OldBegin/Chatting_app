@@ -10,7 +10,7 @@ const options = {
   cert: fs.readFileSync('/etc/letsencrypt/live/www.unitedin.kr/cert.pem')
 };
 
-// ///// 테스트용 로컬 인증서 //////////
+///// 테스트용 로컬 인증서 //////////
 // const options = {
 //   key: fs.readFileSync(__dirname + '/openSSLcert/file.pem'),
 //   cert: fs.readFileSync(__dirname + '/openSSLcert/file.crt')
