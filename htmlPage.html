@@ -11,6 +11,19 @@
 
   </style>
   <script>
+
+
+    $("div[data-role='page']").on( "pageshow", function( event ){
+        resizeContent();
+    });
+
+    function resizeContent(){
+        var headerHeight = parseInt( $("div[data-role='header']").css( "height" ) );
+        var footerHeight = parseInt( $("div[data-role='footer']").css( "height" ) );
+        var contentHeight = screen.availHeight - headerHeight - footerHeight - 78; // 78 : iPhone bottom bar height (retina)
+        $("div[data-role='content']").css( "height", contentHeight );
+    }
+
     function fnMove(seq){
         var offset = $(seq).offset();
         $('#chatView').animate({scrollTop : offset.top}, 400);
@@ -37,6 +50,7 @@
 
         $('#chatView').append(msgDiv);  //id=content 인 문서안에 메시지바디를 추가합니다.
         fnMove('#footer');
+        //$('#chatView').scrollTop($('#chatView').scrollHeight); //
 
         msgDiv = "";
         msgBox = "";
@@ -50,7 +64,7 @@
                        message: $('#msgInput').val(),
                           date: new Date().toUTCString()
                      }
-        var chatView = document.getElementById('chatView');
+
 
         socket.emit('clientMsg',msg);    //내 매시지(클라이언트)를 전송한다.
         console.log('msg: ',msg);
@@ -70,9 +84,9 @@
         myMsgDiv.css('text-align', 'right');
 
         $('#chatView').append(myMsgDiv);
-        //fnMove('#footer');
+        fnMove('#footer');
 
-        chatView.scrollTop = chatView.scrollHeight;
+        //$('#chatView').scrollTop($('#chatView').scrollHeight); // // id='chatView' div 의 스크롤을 맨 아래로 내린다.
 
 
         $('#msgInput').val(""); //메시지 전송 및 표시후 다음 메시지 입력을 위해 비운다.
@@ -111,8 +125,6 @@
       <div id="chatView">
 
       </div>
-    </div>
-    <div id="divSpace">
     </div>
     <div data-role="footer" data-position="fixed" id="footer">
       <input id="msgInput"/>
