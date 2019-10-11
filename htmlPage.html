@@ -42,7 +42,7 @@
         msgOthersSend = "";
 
         fnMove('#footer');
-        chatView.scrollTop = chatView.scrollheight;
+        chatDiv.scrollTop = chatDiv.scrollheight;
 
 
       });
@@ -73,7 +73,8 @@
 
         $('#chatView').append(myMsgDiv);
         fnMove('#footer');
-
+        chatDiv.scrollTop = chatDiv.scrollheight;
+        
         $('#msgInput').val(""); //메시지 전송 및 표시후 다음 메시지 입력을 위해 비운다.
         msg = "";
         myMsgBox = "";
