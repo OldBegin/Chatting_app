@@ -5,16 +5,16 @@ const socketio = require('socket.io');
 const express = require('express');
 
 // 서버용 인증서 ///
-const options = {
-  key: fs.readFileSync('/etc/letsencrypt/live/www.unitedin.kr/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/www.unitedin.kr/cert.pem')
-};
-
-///// 테스트용 로컬 인증서 //////////
 // const options = {
-//   key: fs.readFileSync(__dirname + '/openSSLcert/file.pem'),
-//   cert: fs.readFileSync(__dirname + '/openSSLcert/file.crt')
+//   key: fs.readFileSync('/etc/letsencrypt/live/www.unitedin.kr/privkey.pem'),
+//   cert: fs.readFileSync('/etc/letsencrypt/live/www.unitedin.kr/cert.pem')
 // };
+
+/// 테스트용 로컬 인증서 //////////
+const options = {
+  key: fs.readFileSync(__dirname + '/openSSLcert/file.pem'),
+  cert: fs.readFileSync(__dirname + '/openSSLcert/file.crt')
+};
 
 // 웹서버와 소켓을 생성합니다.
 const app = express();                        // 웹서버 생성
@@ -50,11 +50,12 @@ io.sockets.on('connection',(socket)=>{
 // 그 외에 namespace 를 지정하여 보내는 방식도 있다.
 ////////////////////////////////////////////////////////////////
   socket.on('clientMsg',(data)=>{
+    //console.log('send Clinet msg is ', data);
     // 클라이언트로부터 받은 메세지를 해당 룸에 있는 클라이언트들에게 전송
     // io.sockets.in(roomName).emit('serverMsg', data); //room 지정하여 전송
-     io.sockets.emit('serverMsg',data);              //Public 전송
+    // io.sockets.emit('serverMsg',data);              //Public 전송
     // io.sockets.to(clientId).emit('serverMsg',data); //private 전송
-    // socket.broadcast.emit('serverMsg',data);        //broadcast 전송
+    socket.broadcast.emit('serverMsg',data);        //broadcast 전송
   });
 });
  
