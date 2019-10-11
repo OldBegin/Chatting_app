@@ -13,7 +13,7 @@
   <script>
     function fnMove(seq){
         var offset = $(seq).offset();
-        $('#chatList').animate({scrollTop : offset.top}, 400);
+        $('#chatView').animate({scrollTop : offset.top}, 400);
     }
 
     $(document).ready(function(){
@@ -22,19 +22,6 @@
 //////// 다른 유저의 메시지를 받아서 채팅뷰에 올린다. /////////////
       socket.on('serverMsg',(data)=>{
 
-        // 전송받은 데이터를 출력합니다.
-<<<<<<< HEAD
-        let msgBody = '';
-        msgBody += '<li>';
-        msgBody += '<h3>' + data.name + '</h3>';
-        msgBody += '<h2>' + data.message + '</h2>';
-        msgBody += '<p>' + data.date + '</p>';
-        msgBody += '</li>';
-
-        $(msgBody).appendTo('#content');  //id=content 인 문서뒤에 메시지바디를 추가합니다.
-       // $('#content').listview('refresh'); // 리스트뷰를 리프래쉬합니다.
-        fnMove('#divSpace');
-=======
         var msgDiv = $('<div class="msgDiv">');
         var msgBox = $('<div class="msgBox">');
 
@@ -49,15 +36,17 @@
         msgBox.css('display','inline-block');
 
         $('#chatView').append(msgDiv);  //id=content 인 문서안에 메시지바디를 추가합니다.
-        $('#chatView').append(msgDiv);
-        //$('#content').listview('refresh'); // 리스트뷰를 리프래쉬합니다.
-        fnMove('#footer');
+
         msgDiv = "";
         msgBox = "";
         msgOthersSend = "";
->>>>>>> d6f656a98597b946d31c9acedd604587b1dc5904
+
+        fnMove('#footer');
+        chatView.scrollTop = chatView.scrollheight;
+
 
       });
+
 /////////// 클라이언트가 메시지를 발송할때 ////////////////
       $('button').click(function () {
         var msg = {    name: $('#name').val(),
