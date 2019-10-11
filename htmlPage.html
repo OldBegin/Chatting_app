@@ -8,7 +8,7 @@
   <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <style>
-    ul li { text-align: bottom;}
+
   </style>
   <script>
     function fnMove(seq){
@@ -36,14 +36,11 @@
         msgBox.css('display','inline-block');
 
         $('#chatView').append(msgDiv);  //id=content 인 문서안에 메시지바디를 추가합니다.
+        fnMove('#footer');
 
         msgDiv = "";
         msgBox = "";
         msgOthersSend = "";
-
-        fnMove('#footer');
-        chatDiv.scrollTop = chatDiv.scrollheight;
-
 
       });
 
@@ -53,6 +50,7 @@
                        message: $('#msgInput').val(),
                           date: new Date().toUTCString()
                      }
+        var chatView = document.getElementById('chatView');
 
         socket.emit('clientMsg',msg);    //내 매시지(클라이언트)를 전송한다.
         console.log('msg: ',msg);
@@ -72,9 +70,11 @@
         myMsgDiv.css('text-align', 'right');
 
         $('#chatView').append(myMsgDiv);
-        fnMove('#footer');
-        chatDiv.scrollTop = chatDiv.scrollheight;
-        
+        //fnMove('#footer');
+
+        chatView.scrollTop = chatView.scrollHeight;
+
+
         $('#msgInput').val(""); //메시지 전송 및 표시후 다음 메시지 입력을 위해 비운다.
         msg = "";
         myMsgBox = "";
@@ -107,8 +107,10 @@
     <div data-role="header" data-position="fixed">
       <h1>Socket.io Chatting Program</h1>
     </div>
-    <div data-role="content" id="chatView">
+    <div data-role="content" >
+      <div id="chatView">
 
+      </div>
     </div>
     <div id="divSpace">
     </div>
