@@ -13,7 +13,7 @@
   <script>
     function fnMove(seq){
         var offset = $(seq).offset();
-        $('html, #chatList').animate({scrollTop : offset.top}, 400);
+        $('#chatList').animate({scrollTop : offset.top}, 400);
     }
 
     $(document).ready(function(){
@@ -29,8 +29,8 @@
         msgBody += '</li>';
 
         $(msgBody).appendTo('#content');  //id=content 인 문서뒤에 메시지바디를 추가합니다.
-        $('#content').listview('refresh'); // 리스트뷰를 리프래쉬합니다.
-        fnMove('#footer');
+       // $('#content').listview('refresh'); // 리스트뷰를 리프래쉬합니다.
+        fnMove('#divSpace');
 
       });
 
@@ -73,6 +73,8 @@
       <ul id="content" data-role="listview" data-inset="true">
 
       </ul>
+    </div>
+    <div id="divSpace">
     </div>
     <div data-role="footer" data-position="fixed" id="footer">
       <input id="message"/>
