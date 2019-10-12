@@ -12,7 +12,7 @@
   </style>
   <script>
 
-
+//// footer 가 고정되도록하여 페이지가 리로드될때 footer는 리로드되지 않도록 함..
     $("div[data-role='page']").on( "pageshow", function( event ){
         resizeContent();
     });
@@ -23,10 +23,10 @@
         var contentHeight = screen.availHeight - headerHeight - footerHeight - 78; // 78 : iPhone bottom bar height (retina)
         $("div[data-role='content']").css( "height", contentHeight );
     }
-
+////////////////////////////////////////////////////////////////////////
     function fnMove(seq){
         var offset = $(seq).offset();
-        $('#chatView').animate({scrollTop : offset.top}, 400);
+        $('html, #chatView').animate({scrollTop : offset.top}, 400);
     }
 
     $(document).ready(function(){
@@ -49,7 +49,7 @@
         msgBox.css('display','inline-block');
 
         $('#chatView').append(msgDiv);  //id=content 인 문서안에 메시지바디를 추가합니다.
-        fnMove('#footer');
+        fnMove('#forScroll'); //스크롤이 이동할 위치를 인수로 준다
         //$('#chatView').scrollTop($('#chatView').scrollHeight); //
 
         msgDiv = "";
@@ -84,7 +84,7 @@
         myMsgDiv.css('text-align', 'right');
 
         $('#chatView').append(myMsgDiv);
-        fnMove('#footer');
+        fnMove('#forScroll');
 
         //$('#chatView').scrollTop($('#chatView').scrollHeight); // // id='chatView' div 의 스크롤을 맨 아래로 내린다.
 
@@ -125,7 +125,7 @@
       <div id="chatView">
 
       </div>
-    </div>
+      <div id="forScroll"></div>
     <div data-role="footer" data-position="fixed" id="footer">
       <input id="msgInput"/>
       <button id="btnChat">입력</button>
